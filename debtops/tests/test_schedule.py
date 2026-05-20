@@ -57,6 +57,17 @@ class TestDebtSchedule(unittest.TestCase):
         )
         self.assertGreater(underpaid_summary["remaining_terms"], original_summary["remaining_terms"] - 1)
 
+    def test_unpaid_future_schedule_keeps_actual_balance_open(self):
+        rows, summary = build_repayment_schedule(
+            principal=10000,
+            annual_rate_percent=12,
+            duration_months=12,
+            first_payment_date=date(2026, 6, 1),
+        )
+        self.assertEqual(summary["remaining_balance"], Decimal("10000.00"))
+        self.assertEqual(rows[0]["remaining_balance"], Decimal("10000.00"))
+        self.assertEqual(rows[-1]["projected_remaining_balance"], Decimal("0.00"))
+
     def test_extra_payment_reduces_principal_only(self):
         rows, _ = build_repayment_schedule(
             principal=5000,
@@ -79,4 +90,3 @@ class TestDebtSchedule(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

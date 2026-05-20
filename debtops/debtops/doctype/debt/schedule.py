@@ -197,31 +197,36 @@ def build_repayment_schedule(
                 "actual_interest_amount": actual_interest,
                 "interest_carry_forward": interest_carry,
                 "remaining_balance": balance,
+                "projected_remaining_balance": balance,
                 "journal_entry": event.journal_entry,
                 "payment_account": event.payment_account,
                 "notes": event.notes,
             }
         )
 
+    actual_remaining_balance = balance
+    actual_interest_carry = interest_carry
+    projected_balance = actual_remaining_balance
+    projected_interest_carry = actual_interest_carry
     future_count = 0
     total_interest_remaining = Decimal("0")
-    while balance > 0 or interest_carry > 0:
+    while projected_balance > 0 or projected_interest_carry > 0:
         future_count += 1
         if future_count > max_months:
             raise ValueError("Unable to amortize this debt within the maximum schedule length.")
 
-        interest_due = money(balance * monthly_rate + interest_carry, precision)
-        if balance > 0 and monthly_payment <= interest_due:
+        interest_due = money(projected_balance * monthly_rate + projected_interest_carry, precision)
+        if projected_balance > 0 and monthly_payment <= interest_due:
             raise ValueError("Monthly payment is not high enough to cover interest and reduce principal.")
 
         scheduled_principal, scheduled_interest, scheduled_payment = _scheduled_payment_split(
-            balance,
+            projected_balance,
             interest_due,
             monthly_payment,
             precision,
         )
-        interest_carry = money(max(Decimal("0"), interest_due - scheduled_interest), precision)
-        balance = money(balance - scheduled_principal, precision)
+        projected_interest_carry = money(max(Decimal("0"), interest_due - scheduled_interest), precision)
+        projected_balance = money(projected_balance - scheduled_principal, precision)
         scheduled_count += 1
         total_interest_remaining = money(total_interest_remaining + scheduled_interest, precision)
 
@@ -238,8 +243,9 @@ def build_repayment_schedule(
                 "actual_paid_amount": Decimal("0"),
                 "actual_principal_amount": Decimal("0"),
                 "actual_interest_amount": Decimal("0"),
-                "interest_carry_forward": interest_carry,
-                "remaining_balance": balance,
+                "interest_carry_forward": actual_interest_carry,
+                "remaining_balance": actual_remaining_balance,
+                "projected_remaining_balance": projected_balance,
                 "journal_entry": None,
                 "payment_account": None,
                 "notes": None,
@@ -250,13 +256,12 @@ def build_repayment_schedule(
     maturity_date = rows[-1]["due_date"] if rows else None
     summary = {
         "monthly_payment": monthly_payment,
-        "remaining_balance": balance,
+        "remaining_balance": actual_remaining_balance,
         "remaining_terms": future_count,
         "maturity_date": maturity_date,
         "total_paid": total_paid,
         "total_interest_paid": total_interest_paid,
         "total_interest_remaining": total_interest_remaining,
-        "interest_carry_forward": interest_carry,
+        "interest_carry_forward": actual_interest_carry,
     }
     return rows, summary
-

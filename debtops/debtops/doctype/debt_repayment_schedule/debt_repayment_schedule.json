@@ -20,6 +20,7 @@
     "actual_interest_amount",
     "interest_carry_forward",
     "remaining_balance",
+    "projected_remaining_balance",
     "payment_account",
     "journal_entry",
     "notes"
@@ -118,7 +119,13 @@
       "fieldname": "remaining_balance",
       "fieldtype": "Currency",
       "in_list_view": 1,
-      "label": "Remaining Balance",
+      "label": "Actual Remaining Balance",
+      "read_only": 1
+    },
+    {
+      "fieldname": "projected_remaining_balance",
+      "fieldtype": "Currency",
+      "label": "Projected Remaining Balance",
       "read_only": 1
     },
     {
@@ -153,4 +160,3 @@
   "sort_order": "DESC",
   "states": []
 }
-

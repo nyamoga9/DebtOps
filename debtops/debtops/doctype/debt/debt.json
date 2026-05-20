@@ -199,7 +199,7 @@
       "fieldname": "remaining_balance",
       "fieldtype": "Currency",
       "in_list_view": 1,
-      "label": "Remaining Balance",
+      "label": "Actual Remaining Balance",
       "read_only": 1
     },
     {
@@ -311,4 +311,3 @@
   "states": [],
   "title_field": "debt_name"
 }
-

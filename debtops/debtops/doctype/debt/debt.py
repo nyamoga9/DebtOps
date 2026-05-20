@@ -96,6 +96,7 @@ class Debt(Document):
                     "actual_interest_amount": flt(row["actual_interest_amount"]),
                     "interest_carry_forward": flt(row["interest_carry_forward"]),
                     "remaining_balance": flt(row["remaining_balance"]),
+                    "projected_remaining_balance": flt(row["projected_remaining_balance"]),
                     "journal_entry": row["journal_entry"],
                     "payment_account": row["payment_account"],
                     "notes": row["notes"],
@@ -110,7 +111,7 @@ class Debt(Document):
         self.total_interest_paid = flt(summary["total_interest_paid"])
         self.total_interest_remaining = flt(summary["total_interest_remaining"])
         self.interest_carry_forward = flt(summary["interest_carry_forward"])
-        self.status = "Paid Off" if flt(self.remaining_balance) == 0 else "Active"
+        self.status = "Paid Off" if flt(self.remaining_balance) == 0 and flt(self.interest_carry_forward) == 0 else "Active"
 
     def get_payment_events(self):
         events = []

@@ -10,7 +10,7 @@ def execute(filters=None):
         {"fieldname": "lender_name", "label": _("Lender"), "fieldtype": "Data", "width": 160},
         {"fieldname": "interest_rate_percent", "label": _("Rate %"), "fieldtype": "Percent", "width": 90},
         {"fieldname": "monthly_payment", "label": _("Monthly Payment"), "fieldtype": "Currency", "width": 140},
-        {"fieldname": "remaining_balance", "label": _("Remaining Balance"), "fieldtype": "Currency", "width": 150},
+        {"fieldname": "remaining_balance", "label": _("Actual Remaining Balance"), "fieldtype": "Currency", "width": 170},
         {"fieldname": "remaining_terms", "label": _("Remaining Terms"), "fieldtype": "Int", "width": 120},
         {"fieldname": "maturity_date", "label": _("Projected Maturity"), "fieldtype": "Date", "width": 140},
         {"fieldname": "status", "label": _("Status"), "fieldtype": "Data", "width": 100},
@@ -33,4 +33,3 @@ def execute(filters=None):
         order_by="company, lender_name, maturity_date",
     )
     return columns, data
-

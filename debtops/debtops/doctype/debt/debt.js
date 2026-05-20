@@ -102,7 +102,7 @@ function show_payment_dialog(frm) {
                 fieldtype: "Currency",
                 label: __("Paid Amount"),
                 default: scheduleRow ? scheduleRow.scheduled_payment : 0,
-                reqd: 1,
+                description: __("Enter 0 to record a missed payment without creating a Journal Entry."),
             },
             {
                 fieldname: "payment_account",
@@ -110,7 +110,7 @@ function show_payment_dialog(frm) {
                 label: __("Payment Account"),
                 options: "Account",
                 default: frm.doc.default_payment_account,
-                reqd: 1,
+                description: __("Required when Paid Amount is greater than 0."),
                 get_query: () => ({
                     filters: {
                         company: frm.doc.company,
@@ -139,11 +139,14 @@ function show_payment_dialog(frm) {
                     submit: values.submit ? 1 : 0,
                 },
                 freeze: true,
-                freeze_message: __("Creating Journal Entry..."),
+                freeze_message: __("Recording payment..."),
                 callback(response) {
                     dialog.hide();
                     if (response.message && response.message.journal_entry) {
                         frappe.set_route("Form", "Journal Entry", response.message.journal_entry);
+                    } else if (response.message && response.message.missed_payment) {
+                        frappe.msgprint(__("Missed payment recorded. The debt schedule was recalculated."));
+                        frm.reload_doc();
                     } else {
                         frm.reload_doc();
                     }

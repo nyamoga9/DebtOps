@@ -72,6 +72,13 @@ def _event_date(event: PaymentEvent) -> date:
     return event.payment_date or event.due_date or date.max
 
 
+def _is_recorded_event(event: PaymentEvent) -> bool:
+    row_type = event.row_type or "Scheduled Payment"
+    if event.actual_paid_amount > 0 or event.journal_entry:
+        return True
+    return row_type != "Extra Payment" and event.payment_date is not None
+
+
 def _scheduled_payment_split(balance: Decimal, interest_due: Decimal, target_payment: Decimal, precision: int):
     total_due = money(balance + interest_due, precision)
     scheduled_payment = min(target_payment, total_due)
@@ -131,20 +138,20 @@ def build_repayment_schedule(
     next_due_date = first_payment
 
     events = sorted(
-        [event for event in (existing_events or []) if event.actual_paid_amount > 0 or event.journal_entry],
+        [event for event in (existing_events or []) if _is_recorded_event(event)],
         key=lambda event: (_event_date(event), 1 if event.row_type == "Extra Payment" else 0, event.sort_index),
     )
 
     for event in events:
         paid_amount = money(event.actual_paid_amount, precision)
-        if paid_amount <= 0:
-            continue
 
         row_type = event.row_type or "Scheduled Payment"
         due_date = event.due_date or event.payment_date or next_due_date
         payment_date = event.payment_date or due_date
 
         if row_type == "Extra Payment":
+            if paid_amount <= 0:
+                continue
             maximum_payment = balance
             if paid_amount > maximum_payment:
                 raise ValueError("Extra payment cannot exceed the remaining principal balance.")

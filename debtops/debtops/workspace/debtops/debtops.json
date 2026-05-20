@@ -1,0 +1,173 @@
+{
+ "app": "debtops",
+ "charts": [
+  {
+   "chart_name": "Debt Originations",
+   "label": "Debt Originations"
+  }
+ ],
+ "content": "[{\"id\":\"debtops-kpi-active\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Active Debts\",\"col\":3}},{\"id\":\"debtops-kpi-outstanding\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Debt Outstanding\",\"col\":3}},{\"id\":\"debtops-kpi-payment\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Monthly Debt Payments\",\"col\":3}},{\"id\":\"debtops-kpi-interest\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Projected Interest Remaining\",\"col\":3}},{\"id\":\"debtops-chart-originations\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Debt Originations\",\"col\":12}},{\"id\":\"debtops-spacer-1\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"debtops-header-main\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Debt Management</b></span>\",\"col\":12}},{\"id\":\"debtops-card-main\",\"type\":\"card\",\"data\":{\"card_name\":\"Debt Management\",\"col\":4}},{\"id\":\"debtops-card-accounting\",\"type\":\"card\",\"data\":{\"card_name\":\"Accounting\",\"col\":4}},{\"id\":\"debtops-card-reports\",\"type\":\"card\",\"data\":{\"card_name\":\"Reports\",\"col\":4}}]",
+ "creation": "2026-05-20 00:00:00.000000",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "loan",
+ "idx": 0,
+ "is_hidden": 0,
+ "label": "DebtOps",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Debt Management",
+   "link_count": 0,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Debt",
+   "link_count": 0,
+   "link_to": "Debt",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Debt Portfolio",
+   "link_count": 0,
+   "link_to": "Debt Portfolio",
+   "link_type": "Report",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Accounting",
+   "link_count": 0,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Journal Entry",
+   "link_count": 0,
+   "link_to": "Journal Entry",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Chart of Accounts",
+   "link_count": 0,
+   "link_to": "Account",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Bank Account",
+   "link_count": 0,
+   "link_to": "Bank Account",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Reports",
+   "link_count": 0,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "General Ledger",
+   "link_count": 0,
+   "link_to": "General Ledger",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2026-05-20 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "DebtOps",
+ "name": "DebtOps",
+ "number_cards": [
+  {
+   "label": "Active Debts",
+   "number_card_name": "Active Debts"
+  },
+  {
+   "label": "Total Debt Outstanding",
+   "number_card_name": "Total Debt Outstanding"
+  },
+  {
+   "label": "Monthly Debt Payments",
+   "number_card_name": "Monthly Debt Payments"
+  },
+  {
+   "label": "Projected Interest Remaining",
+   "number_card_name": "Projected Interest Remaining"
+  }
+ ],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [
+  {
+   "role": "Accounts Manager"
+  },
+  {
+   "role": "Accounts User"
+  },
+  {
+   "role": "System Manager"
+  }
+ ],
+ "sequence_id": 7.0,
+ "shortcuts": [
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "format": "{}",
+   "label": "Debts",
+   "link_to": "Debt",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Green",
+   "format": "{}",
+   "label": "Debt Portfolio",
+   "link_to": "Debt Portfolio",
+   "stats_filter": "[]",
+   "type": "Report"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "format": "{}",
+   "label": "Journal Entries",
+   "link_to": "Journal Entry",
+   "stats_filter": "[]",
+   "type": "DocType"
+  }
+ ],
+ "title": "DebtOps"
+}

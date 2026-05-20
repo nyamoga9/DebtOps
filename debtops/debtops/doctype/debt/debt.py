@@ -117,12 +117,18 @@ class Debt(Document):
         events = []
         for index, row in enumerate(self.repayment_schedule or [], start=1):
             actual_paid_amount = Decimal(str(flt(row.actual_paid_amount)))
-            if actual_paid_amount <= 0 and not row.journal_entry:
+            row_type = row.row_type or "Scheduled Payment"
+            is_recorded_zero_payment = (
+                row_type != "Extra Payment"
+                and actual_paid_amount == 0
+                and row.payment_date
+            )
+            if actual_paid_amount <= 0 and not row.journal_entry and not is_recorded_zero_payment:
                 continue
             events.append(
                 PaymentEvent(
                     schedule_id=row.schedule_id or row.name,
-                    row_type=row.row_type or "Scheduled Payment",
+                    row_type=row_type,
                     due_date=getdate(row.due_date) if row.due_date else None,
                     payment_date=getdate(row.payment_date) if row.payment_date else None,
                     actual_paid_amount=actual_paid_amount,
@@ -163,9 +169,22 @@ def create_payment_journal_entry(
     if row.journal_entry:
         frappe.throw(_("Repayment row {0} already has Journal Entry {1}.").format(schedule_id, row.journal_entry))
 
-    amount = flt(paid_amount) or flt(row.actual_paid_amount) or flt(row.scheduled_payment)
-    if amount <= 0:
-        frappe.throw(_("Paid amount must be greater than zero."))
+    has_paid_amount = paid_amount is not None and paid_amount != ""
+    amount = flt(paid_amount) if has_paid_amount else flt(row.actual_paid_amount) or flt(row.scheduled_payment)
+    if amount < 0:
+        frappe.throw(_("Paid amount cannot be negative."))
+
+    if amount == 0:
+        row.actual_paid_amount = 0
+        row.payment_date = posting_date or row.payment_date or nowdate()
+        doc.save()
+        return {
+            "debt": doc.name,
+            "schedule_id": schedule_id,
+            "missed_payment": 1,
+            "remaining_balance": doc.remaining_balance,
+            "maturity_date": doc.maturity_date,
+        }
 
     row.actual_paid_amount = amount
     row.payment_date = posting_date or row.payment_date or nowdate()
@@ -240,6 +259,16 @@ def _make_payment_journal_entry(debt_doc, schedule_row, submit=1):
     je.voucher_type = "Bank Entry"
     je.company = debt_doc.company
     je.posting_date = schedule_row.payment_date or nowdate()
+    reference_date = schedule_row.payment_date or nowdate()
+    reference_no = get_payment_reference_no(debt_doc, schedule_row)
+    if je.meta.has_field("cheque_no"):
+        je.cheque_no = reference_no
+    if je.meta.has_field("cheque_date"):
+        je.cheque_date = reference_date
+    if je.meta.has_field("reference_no"):
+        je.reference_no = reference_no
+    if je.meta.has_field("reference_date"):
+        je.reference_date = reference_date
     je.user_remark = _("Debt payment for {0}, row {1}").format(debt_doc.name, schedule_row.schedule_id)
 
     if principal_amount:
@@ -275,3 +304,14 @@ def _make_payment_journal_entry(debt_doc, schedule_row, submit=1):
     if int(submit):
         je.submit()
     return je
+
+
+def get_payment_reference_no(debt_doc, schedule_row):
+    schedule_id = schedule_row.schedule_id or schedule_row.name
+    due_date = schedule_row.due_date or schedule_row.payment_date
+    parts = [debt_doc.loan_reference_number or debt_doc.debt_name or debt_doc.name]
+    if schedule_id:
+        parts.append(schedule_id)
+    if due_date:
+        parts.append(str(due_date))
+    return " / ".join(parts)

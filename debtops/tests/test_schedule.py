@@ -57,6 +57,29 @@ class TestDebtSchedule(unittest.TestCase):
         )
         self.assertGreater(underpaid_summary["remaining_terms"], original_summary["remaining_terms"] - 1)
 
+    def test_missed_payment_carries_interest_forward(self):
+        rows, summary = build_repayment_schedule(
+            principal=10000,
+            annual_rate_percent=12,
+            duration_months=12,
+            first_payment_date=date(2026, 6, 1),
+            existing_events=[
+                PaymentEvent(
+                    schedule_id="SCH-0001",
+                    row_type="Scheduled Payment",
+                    due_date=date(2026, 6, 1),
+                    payment_date=date(2026, 6, 1),
+                    actual_paid_amount=Decimal("0"),
+                )
+            ],
+        )
+        self.assertEqual(rows[0]["actual_paid_amount"], Decimal("0.00"))
+        self.assertEqual(rows[0]["actual_interest_amount"], Decimal("0.00"))
+        self.assertEqual(rows[0]["interest_carry_forward"], Decimal("100.00"))
+        self.assertEqual(rows[0]["remaining_balance"], Decimal("10000.00"))
+        self.assertEqual(summary["remaining_balance"], Decimal("10000.00"))
+        self.assertGreater(summary["remaining_terms"], 11)
+
     def test_unpaid_future_schedule_keeps_actual_balance_open(self):
         rows, summary = build_repayment_schedule(
             principal=10000,

@@ -4,6 +4,8 @@ import frappe
 def execute():
     if not frappe.db.table_exists("Debt") or not frappe.db.table_exists("Debt Repayment Schedule"):
         return
+    if not frappe.db.has_column("Debt Repayment Schedule", "currency"):
+        return
 
     for debt in frappe.get_all("Debt", fields=["name", "currency"]):
         if not debt.currency:

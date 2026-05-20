@@ -88,6 +88,7 @@ class Debt(Document):
                     "payment_number": row["payment_number"],
                     "due_date": row["due_date"],
                     "payment_date": row["payment_date"],
+                    "currency": self.currency,
                     "scheduled_principal": flt(row["scheduled_principal"]),
                     "scheduled_interest": flt(row["scheduled_interest"]),
                     "scheduled_payment": flt(row["scheduled_payment"]),
@@ -175,6 +176,7 @@ def create_payment_journal_entry(
         frappe.throw(_("Paid amount cannot be negative."))
 
     if amount == 0:
+        row.currency = doc.currency
         row.actual_paid_amount = 0
         row.payment_date = posting_date or row.payment_date or nowdate()
         doc.save()
@@ -186,6 +188,7 @@ def create_payment_journal_entry(
             "maturity_date": doc.maturity_date,
         }
 
+    row.currency = doc.currency
     row.actual_paid_amount = amount
     row.payment_date = posting_date or row.payment_date or nowdate()
     row.payment_account = payment_account or row.payment_account or doc.default_payment_account
@@ -224,6 +227,7 @@ def create_extra_payment_journal_entry(
             "row_type": "Extra Payment",
             "due_date": posting_date or nowdate(),
             "payment_date": posting_date or nowdate(),
+            "currency": doc.currency,
             "actual_paid_amount": paid_amount,
             "payment_account": payment_account,
             "notes": notes,
@@ -258,6 +262,7 @@ def _make_payment_journal_entry(debt_doc, schedule_row, submit=1):
     je = frappe.new_doc("Journal Entry")
     je.voucher_type = "Bank Entry"
     je.company = debt_doc.company
+    je.multi_currency = 1 if journal_entry_uses_multi_currency(debt_doc, payment_account) else 0
     je.posting_date = schedule_row.payment_date or nowdate()
     reference_date = schedule_row.payment_date or nowdate()
     reference_no = get_payment_reference_no(debt_doc, schedule_row)
@@ -304,6 +309,23 @@ def _make_payment_journal_entry(debt_doc, schedule_row, submit=1):
     if int(submit):
         je.submit()
     return je
+
+
+def journal_entry_uses_multi_currency(debt_doc, payment_account):
+    company_currency = frappe.db.get_value("Company", debt_doc.company, "default_currency")
+    accounts = [
+        debt_doc.liability_account,
+        debt_doc.interest_expense_account,
+        payment_account,
+    ]
+    account_currencies = frappe.get_all(
+        "Account",
+        filters={"name": ("in", [account for account in accounts if account])},
+        pluck="account_currency",
+    )
+    currencies = {currency for currency in account_currencies if currency}
+    currencies.add(debt_doc.currency)
+    return any(currency and currency != company_currency for currency in currencies)
 
 
 def get_payment_reference_no(debt_doc, schedule_row):

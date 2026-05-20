@@ -1,12 +1,22 @@
+import json
 import unittest
 from datetime import date
 from decimal import Decimal
+from pathlib import Path
 
 from debtops.debtops.doctype.debt.schedule import (
     PaymentEvent,
     build_repayment_schedule,
     calculate_monthly_payment,
 )
+
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+
+
+def doctype_fields(path):
+    doctype = json.loads(path.read_text(encoding="utf-8"))
+    return {field["fieldname"]: field for field in doctype["fields"]}
 
 
 class TestDebtSchedule(unittest.TestCase):
@@ -109,6 +119,40 @@ class TestDebtSchedule(unittest.TestCase):
         )
         self.assertEqual(rows[0]["actual_interest_amount"], Decimal("0"))
         self.assertEqual(rows[0]["remaining_balance"], Decimal("4500.00"))
+
+
+class TestCurrencyMetadata(unittest.TestCase):
+    def test_debt_currency_fields_use_selected_currency(self):
+        fields = doctype_fields(REPO_ROOT / "debtops/debtops/doctype/debt/debt.json")
+        for fieldname in (
+            "opening_principal",
+            "payment_amount_override",
+            "monthly_payment",
+            "remaining_balance",
+            "total_paid",
+            "total_interest_paid",
+            "total_interest_remaining",
+            "interest_carry_forward",
+        ):
+            self.assertEqual(fields[fieldname]["options"], "currency")
+
+    def test_schedule_currency_fields_use_row_currency(self):
+        fields = doctype_fields(
+            REPO_ROOT / "debtops/debtops/doctype/debt_repayment_schedule/debt_repayment_schedule.json"
+        )
+        self.assertEqual(fields["currency"]["options"], "Currency")
+        for fieldname in (
+            "scheduled_principal",
+            "scheduled_interest",
+            "scheduled_payment",
+            "actual_paid_amount",
+            "actual_principal_amount",
+            "actual_interest_amount",
+            "interest_carry_forward",
+            "remaining_balance",
+            "projected_remaining_balance",
+        ):
+            self.assertEqual(fields[fieldname]["options"], "currency")
 
 
 if __name__ == "__main__":

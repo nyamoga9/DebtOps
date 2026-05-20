@@ -24,10 +24,10 @@
     "origination_date",
     "first_payment_date",
     "interest_rate_percent",
+    "currency",
     "opening_principal",
     "original_duration_months",
     "payment_amount_override",
-    "currency",
     "summary_section",
     "monthly_payment",
     "remaining_balance",
@@ -163,6 +163,7 @@
       "fieldtype": "Currency",
       "in_list_view": 1,
       "label": "Opening Principal",
+      "options": "currency",
       "reqd": 1
     },
     {
@@ -175,13 +176,15 @@
       "description": "Optional. Use when the bank has a fixed payment amount that differs from the calculated amortized amount.",
       "fieldname": "payment_amount_override",
       "fieldtype": "Currency",
-      "label": "Payment Amount Override"
+      "label": "Payment Amount Override",
+      "options": "currency"
     },
     {
       "fieldname": "currency",
       "fieldtype": "Link",
       "label": "Currency",
-      "options": "Currency"
+      "options": "Currency",
+      "reqd": 1
     },
     {
       "fieldname": "summary_section",
@@ -193,6 +196,7 @@
       "fieldtype": "Currency",
       "in_list_view": 1,
       "label": "Monthly Payment",
+      "options": "currency",
       "read_only": 1
     },
     {
@@ -200,6 +204,7 @@
       "fieldtype": "Currency",
       "in_list_view": 1,
       "label": "Actual Remaining Balance",
+      "options": "currency",
       "read_only": 1
     },
     {
@@ -219,24 +224,28 @@
       "fieldname": "total_paid",
       "fieldtype": "Currency",
       "label": "Total Paid",
+      "options": "currency",
       "read_only": 1
     },
     {
       "fieldname": "total_interest_paid",
       "fieldtype": "Currency",
       "label": "Total Interest Paid",
+      "options": "currency",
       "read_only": 1
     },
     {
       "fieldname": "total_interest_remaining",
       "fieldtype": "Currency",
       "label": "Projected Interest Remaining",
+      "options": "currency",
       "read_only": 1
     },
     {
       "fieldname": "interest_carry_forward",
       "fieldtype": "Currency",
       "label": "Interest Carry Forward",
+      "options": "currency",
       "read_only": 1
     },
     {
@@ -263,7 +272,7 @@
   ],
   "index_web_pages_for_search": 1,
   "links": [],
-  "modified": "2026-05-20 00:00:00.000000",
+  "modified": "2026-05-20 11:46:56.000000",
   "modified_by": "Administrator",
   "module": "DebtOps",
   "name": "Debt",

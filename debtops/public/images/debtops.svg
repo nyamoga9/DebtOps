@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="DebtOps">
+  <defs>
+    <linearGradient id="debtops-bg" x1="20" y1="16" x2="108" y2="112" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#14b8a6"/>
+      <stop offset="1" stop-color="#2563eb"/>
+    </linearGradient>
+    <linearGradient id="debtops-line" x1="28" y1="78" x2="100" y2="42" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ccfbf1"/>
+      <stop offset="1" stop-color="#ffffff"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="28" fill="url(#debtops-bg)"/>
+  <path d="M30 42c0-5.5 4.5-10 10-10h38.5c2.7 0 5.2 1.1 7.1 2.9L98 47.3c1.9 1.9 2.9 4.4 2.9 7.1V86c0 5.5-4.5 10-10 10H40c-5.5 0-10-4.5-10-10V42z" fill="#ffffff" opacity=".95"/>
+  <path d="M79 34v13c0 3.3 2.7 6 6 6h13" fill="#dbeafe"/>
+  <path d="M43 76h50" stroke="#0f172a" stroke-width="6" stroke-linecap="round" opacity=".16"/>
+  <path d="M43 61h26" stroke="#0f172a" stroke-width="6" stroke-linecap="round" opacity=".16"/>
+  <path d="M42 82l15-15 14 9 23-25" fill="none" stroke="url(#debtops-line)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M42 82l15-15 14 9 23-25" fill="none" stroke="#0f766e" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="42" cy="82" r="5.5" fill="#0f766e"/>
+  <circle cx="57" cy="67" r="5.5" fill="#0f766e"/>
+  <circle cx="71" cy="76" r="5.5" fill="#0f766e"/>
+  <circle cx="94" cy="51" r="5.5" fill="#0f766e"/>
+</svg>

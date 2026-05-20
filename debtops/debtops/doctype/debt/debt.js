@@ -29,6 +29,8 @@ frappe.ui.form.on("Debt", {
     },
 
     refresh(frm) {
+        sync_schedule_currency(frm);
+
         if (frm.is_new()) {
             return;
         }
@@ -55,7 +57,18 @@ frappe.ui.form.on("Debt", {
             show_extra_payment_dialog(frm);
         }, __("Payments"));
     },
+
+    currency(frm) {
+        sync_schedule_currency(frm);
+        frm.refresh_field("repayment_schedule");
+    },
 });
+
+function sync_schedule_currency(frm) {
+    (frm.doc.repayment_schedule || []).forEach((row) => {
+        row.currency = frm.doc.currency;
+    });
+}
 
 function unpaid_schedule_options(frm) {
     return (frm.doc.repayment_schedule || [])
@@ -101,6 +114,7 @@ function show_payment_dialog(frm) {
                 fieldname: "paid_amount",
                 fieldtype: "Currency",
                 label: __("Paid Amount"),
+                options: frm.doc.currency,
                 default: scheduleRow ? scheduleRow.scheduled_payment : 0,
                 description: __("Enter 0 to record a missed payment without creating a Journal Entry."),
             },
@@ -181,6 +195,7 @@ function show_extra_payment_dialog(frm) {
                 fieldname: "paid_amount",
                 fieldtype: "Currency",
                 label: __("Paid Amount"),
+                options: frm.doc.currency,
                 reqd: 1,
             },
             {

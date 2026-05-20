@@ -1,0 +1,314 @@
+{
+  "actions": [],
+  "allow_import": 1,
+  "autoname": "naming_series:",
+  "creation": "2026-05-20 00:00:00.000000",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "debt_details_section",
+    "naming_series",
+    "debt_name",
+    "company",
+    "status",
+    "lender_name",
+    "loan_reference_number",
+    "bank",
+    "bank_account",
+    "accounting_section",
+    "liability_account",
+    "interest_expense_account",
+    "default_payment_account",
+    "cost_center",
+    "terms_section",
+    "origination_date",
+    "first_payment_date",
+    "interest_rate_percent",
+    "opening_principal",
+    "original_duration_months",
+    "payment_amount_override",
+    "currency",
+    "summary_section",
+    "monthly_payment",
+    "remaining_balance",
+    "remaining_terms",
+    "maturity_date",
+    "total_paid",
+    "total_interest_paid",
+    "total_interest_remaining",
+    "interest_carry_forward",
+    "repayment_schedule_section",
+    "repayment_schedule",
+    "notes_section",
+    "notes"
+  ],
+  "fields": [
+    {
+      "fieldname": "debt_details_section",
+      "fieldtype": "Section Break",
+      "label": "Debt Details"
+    },
+    {
+      "default": "DEBT-.YYYY.-.#####",
+      "fieldname": "naming_series",
+      "fieldtype": "Select",
+      "label": "Naming Series",
+      "options": "DEBT-.YYYY.-.#####",
+      "reqd": 1
+    },
+    {
+      "fieldname": "debt_name",
+      "fieldtype": "Data",
+      "in_list_view": 1,
+      "label": "Debt Name",
+      "reqd": 1
+    },
+    {
+      "fieldname": "company",
+      "fieldtype": "Link",
+      "in_list_view": 1,
+      "label": "Company",
+      "options": "Company",
+      "reqd": 1
+    },
+    {
+      "default": "Active",
+      "fieldname": "status",
+      "fieldtype": "Select",
+      "in_list_view": 1,
+      "label": "Status",
+      "options": "Active\nPaid Off\nClosed",
+      "read_only": 1
+    },
+    {
+      "fieldname": "lender_name",
+      "fieldtype": "Data",
+      "in_list_view": 1,
+      "label": "Lender Name",
+      "reqd": 1
+    },
+    {
+      "fieldname": "loan_reference_number",
+      "fieldtype": "Data",
+      "label": "Loan / Reference Number"
+    },
+    {
+      "fieldname": "bank",
+      "fieldtype": "Link",
+      "label": "Bank",
+      "options": "Bank"
+    },
+    {
+      "fieldname": "bank_account",
+      "fieldtype": "Link",
+      "label": "Bank Account",
+      "options": "Bank Account"
+    },
+    {
+      "fieldname": "accounting_section",
+      "fieldtype": "Section Break",
+      "label": "Accounting"
+    },
+    {
+      "fieldname": "liability_account",
+      "fieldtype": "Link",
+      "label": "Liability Account",
+      "options": "Account",
+      "reqd": 1
+    },
+    {
+      "fieldname": "interest_expense_account",
+      "fieldtype": "Link",
+      "label": "Interest Expense Account",
+      "options": "Account",
+      "reqd": 1
+    },
+    {
+      "fieldname": "default_payment_account",
+      "fieldtype": "Link",
+      "label": "Default Payment Account",
+      "options": "Account"
+    },
+    {
+      "fieldname": "cost_center",
+      "fieldtype": "Link",
+      "label": "Cost Center",
+      "options": "Cost Center"
+    },
+    {
+      "fieldname": "terms_section",
+      "fieldtype": "Section Break",
+      "label": "Terms"
+    },
+    {
+      "fieldname": "origination_date",
+      "fieldtype": "Date",
+      "label": "Origination Date",
+      "reqd": 1
+    },
+    {
+      "fieldname": "first_payment_date",
+      "fieldtype": "Date",
+      "label": "First Payment Date",
+      "reqd": 1
+    },
+    {
+      "fieldname": "interest_rate_percent",
+      "fieldtype": "Percent",
+      "label": "Annual Interest Rate %",
+      "reqd": 1
+    },
+    {
+      "fieldname": "opening_principal",
+      "fieldtype": "Currency",
+      "in_list_view": 1,
+      "label": "Opening Principal",
+      "reqd": 1
+    },
+    {
+      "fieldname": "original_duration_months",
+      "fieldtype": "Int",
+      "label": "Original Duration (Months)",
+      "reqd": 1
+    },
+    {
+      "description": "Optional. Use when the bank has a fixed payment amount that differs from the calculated amortized amount.",
+      "fieldname": "payment_amount_override",
+      "fieldtype": "Currency",
+      "label": "Payment Amount Override"
+    },
+    {
+      "fieldname": "currency",
+      "fieldtype": "Link",
+      "label": "Currency",
+      "options": "Currency"
+    },
+    {
+      "fieldname": "summary_section",
+      "fieldtype": "Section Break",
+      "label": "Summary"
+    },
+    {
+      "fieldname": "monthly_payment",
+      "fieldtype": "Currency",
+      "in_list_view": 1,
+      "label": "Monthly Payment",
+      "read_only": 1
+    },
+    {
+      "fieldname": "remaining_balance",
+      "fieldtype": "Currency",
+      "in_list_view": 1,
+      "label": "Remaining Balance",
+      "read_only": 1
+    },
+    {
+      "fieldname": "remaining_terms",
+      "fieldtype": "Int",
+      "label": "Remaining Terms",
+      "read_only": 1
+    },
+    {
+      "fieldname": "maturity_date",
+      "fieldtype": "Date",
+      "in_list_view": 1,
+      "label": "Projected Maturity Date",
+      "read_only": 1
+    },
+    {
+      "fieldname": "total_paid",
+      "fieldtype": "Currency",
+      "label": "Total Paid",
+      "read_only": 1
+    },
+    {
+      "fieldname": "total_interest_paid",
+      "fieldtype": "Currency",
+      "label": "Total Interest Paid",
+      "read_only": 1
+    },
+    {
+      "fieldname": "total_interest_remaining",
+      "fieldtype": "Currency",
+      "label": "Projected Interest Remaining",
+      "read_only": 1
+    },
+    {
+      "fieldname": "interest_carry_forward",
+      "fieldtype": "Currency",
+      "label": "Interest Carry Forward",
+      "read_only": 1
+    },
+    {
+      "fieldname": "repayment_schedule_section",
+      "fieldtype": "Section Break",
+      "label": "Repayment Schedule"
+    },
+    {
+      "fieldname": "repayment_schedule",
+      "fieldtype": "Table",
+      "label": "Repayment Schedule",
+      "options": "Debt Repayment Schedule"
+    },
+    {
+      "fieldname": "notes_section",
+      "fieldtype": "Section Break",
+      "label": "Notes"
+    },
+    {
+      "fieldname": "notes",
+      "fieldtype": "Small Text",
+      "label": "Notes"
+    }
+  ],
+  "index_web_pages_for_search": 1,
+  "links": [],
+  "modified": "2026-05-20 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "DebtOps",
+  "name": "Debt",
+  "naming_rule": "By \"Naming Series\" field",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "create": 1,
+      "delete": 1,
+      "email": 1,
+      "export": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "System Manager",
+      "share": 1,
+      "write": 1
+    },
+    {
+      "create": 1,
+      "delete": 1,
+      "email": 1,
+      "export": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "Accounts Manager",
+      "share": 1,
+      "write": 1
+    },
+    {
+      "create": 1,
+      "email": 1,
+      "export": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "Accounts User",
+      "share": 1,
+      "write": 1
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "states": [],
+  "title_field": "debt_name"
+}
+

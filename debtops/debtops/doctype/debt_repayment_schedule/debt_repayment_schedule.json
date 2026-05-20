@@ -1,0 +1,156 @@
+{
+  "actions": [],
+  "creation": "2026-05-20 00:00:00.000000",
+  "doctype": "DocType",
+  "editable_grid": 1,
+  "engine": "InnoDB",
+  "field_order": [
+    "schedule_id",
+    "row_type",
+    "payment_number",
+    "due_date",
+    "payment_date",
+    "scheduled_section",
+    "scheduled_principal",
+    "scheduled_interest",
+    "scheduled_payment",
+    "actual_section",
+    "actual_paid_amount",
+    "actual_principal_amount",
+    "actual_interest_amount",
+    "interest_carry_forward",
+    "remaining_balance",
+    "payment_account",
+    "journal_entry",
+    "notes"
+  ],
+  "fields": [
+    {
+      "fieldname": "schedule_id",
+      "fieldtype": "Data",
+      "hidden": 1,
+      "label": "Schedule ID",
+      "read_only": 1
+    },
+    {
+      "default": "Scheduled Payment",
+      "fieldname": "row_type",
+      "fieldtype": "Select",
+      "in_list_view": 1,
+      "label": "Row Type",
+      "options": "Scheduled Payment\nExtra Payment",
+      "read_only": 1
+    },
+    {
+      "fieldname": "payment_number",
+      "fieldtype": "Int",
+      "in_list_view": 1,
+      "label": "Payment #",
+      "read_only": 1
+    },
+    {
+      "fieldname": "due_date",
+      "fieldtype": "Date",
+      "in_list_view": 1,
+      "label": "Due Date",
+      "read_only": 1
+    },
+    {
+      "fieldname": "payment_date",
+      "fieldtype": "Date",
+      "in_list_view": 1,
+      "label": "Payment Date"
+    },
+    {
+      "fieldname": "scheduled_section",
+      "fieldtype": "Section Break",
+      "label": "Scheduled"
+    },
+    {
+      "fieldname": "scheduled_principal",
+      "fieldtype": "Currency",
+      "label": "Scheduled Principal",
+      "read_only": 1
+    },
+    {
+      "fieldname": "scheduled_interest",
+      "fieldtype": "Currency",
+      "label": "Scheduled Interest",
+      "read_only": 1
+    },
+    {
+      "fieldname": "scheduled_payment",
+      "fieldtype": "Currency",
+      "in_list_view": 1,
+      "label": "Scheduled Payment",
+      "read_only": 1
+    },
+    {
+      "fieldname": "actual_section",
+      "fieldtype": "Section Break",
+      "label": "Actual"
+    },
+    {
+      "fieldname": "actual_paid_amount",
+      "fieldtype": "Currency",
+      "in_list_view": 1,
+      "label": "Actual Paid Amount"
+    },
+    {
+      "fieldname": "actual_principal_amount",
+      "fieldtype": "Currency",
+      "label": "Actual Principal",
+      "read_only": 1
+    },
+    {
+      "fieldname": "actual_interest_amount",
+      "fieldtype": "Currency",
+      "label": "Actual Interest",
+      "read_only": 1
+    },
+    {
+      "fieldname": "interest_carry_forward",
+      "fieldtype": "Currency",
+      "label": "Interest Carry Forward",
+      "read_only": 1
+    },
+    {
+      "fieldname": "remaining_balance",
+      "fieldtype": "Currency",
+      "in_list_view": 1,
+      "label": "Remaining Balance",
+      "read_only": 1
+    },
+    {
+      "fieldname": "payment_account",
+      "fieldtype": "Link",
+      "label": "Payment Account",
+      "options": "Account"
+    },
+    {
+      "fieldname": "journal_entry",
+      "fieldtype": "Link",
+      "in_list_view": 1,
+      "label": "Journal Entry",
+      "options": "Journal Entry",
+      "read_only": 1
+    },
+    {
+      "fieldname": "notes",
+      "fieldtype": "Small Text",
+      "label": "Notes"
+    }
+  ],
+  "istable": 1,
+  "links": [],
+  "modified": "2026-05-20 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "DebtOps",
+  "name": "Debt Repayment Schedule",
+  "owner": "Administrator",
+  "permissions": [],
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "states": []
+}
+

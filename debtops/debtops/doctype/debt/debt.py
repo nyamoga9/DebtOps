@@ -4,6 +4,7 @@ import frappe
 from frappe import _
 from frappe.model.document import Document
 from frappe.utils import add_months, flt, getdate, nowdate
+from erpnext.setup.utils import get_exchange_rate
 
 from debtops.debtops.doctype.debt.schedule import PaymentEvent, build_repayment_schedule
 
@@ -13,6 +14,7 @@ class Debt(Document):
         self.set_defaults()
         self.validate_accounts()
         self.recalculate_schedule()
+        self.set_company_currency_totals()
 
     def set_defaults(self):
         if not self.first_payment_date and self.origination_date:
@@ -113,6 +115,33 @@ class Debt(Document):
         self.total_interest_remaining = flt(summary["total_interest_remaining"])
         self.interest_carry_forward = flt(summary["interest_carry_forward"])
         self.status = "Paid Off" if flt(self.remaining_balance) == 0 and flt(self.interest_carry_forward) == 0 else "Active"
+
+    def set_company_currency_totals(self):
+        self.company_currency = (
+            frappe.db.get_value("Company", self.company, "default_currency")
+            if self.company
+            else self.currency
+        )
+        rate = self.get_company_currency_exchange_rate()
+        self.base_exchange_rate = rate
+        self.base_opening_principal = flt(self.opening_principal) * rate
+        self.base_monthly_payment = flt(self.monthly_payment) * rate
+        self.base_remaining_balance = flt(self.remaining_balance) * rate
+        self.base_total_interest_remaining = flt(self.total_interest_remaining) * rate
+
+    def get_company_currency_exchange_rate(self):
+        if not self.currency or not self.company_currency or self.currency == self.company_currency:
+            return 1
+
+        rate = get_exchange_rate(self.currency, self.company_currency, nowdate())
+        if not rate:
+            frappe.throw(
+                _("Missing exchange rate from {0} to {1}.").format(
+                    self.currency,
+                    self.company_currency,
+                )
+            )
+        return flt(rate)
 
     def get_payment_events(self):
         events = []

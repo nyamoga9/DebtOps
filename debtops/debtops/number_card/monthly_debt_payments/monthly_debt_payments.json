@@ -1,5 +1,5 @@
 {
- "aggregate_function_based_on": "monthly_payment",
+ "aggregate_function_based_on": "base_monthly_payment",
  "creation": "2026-05-20 00:00:00.000000",
  "docstatus": 0,
  "doctype": "Number Card",

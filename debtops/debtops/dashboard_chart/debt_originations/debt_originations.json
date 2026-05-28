@@ -26,6 +26,6 @@
  "timespan": "Last Year",
  "type": "Bar",
  "use_report_chart": 0,
- "value_based_on": "opening_principal",
+ "value_based_on": "base_opening_principal",
  "y_axis": []
 }

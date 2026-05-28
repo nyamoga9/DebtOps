@@ -37,6 +37,13 @@
     "total_interest_paid",
     "total_interest_remaining",
     "interest_carry_forward",
+    "company_currency_section",
+    "company_currency",
+    "base_exchange_rate",
+    "base_opening_principal",
+    "base_monthly_payment",
+    "base_remaining_balance",
+    "base_total_interest_remaining",
     "repayment_schedule_section",
     "repayment_schedule",
     "notes_section",
@@ -246,6 +253,52 @@
       "fieldtype": "Currency",
       "label": "Interest Carry Forward",
       "options": "currency",
+      "read_only": 1
+    },
+    {
+      "fieldname": "company_currency_section",
+      "fieldtype": "Section Break",
+      "label": "Company Currency Summary"
+    },
+    {
+      "fieldname": "company_currency",
+      "fieldtype": "Link",
+      "label": "Company Currency",
+      "options": "Currency",
+      "read_only": 1
+    },
+    {
+      "fieldname": "base_exchange_rate",
+      "fieldtype": "Float",
+      "label": "Exchange Rate to Company Currency",
+      "read_only": 1
+    },
+    {
+      "fieldname": "base_opening_principal",
+      "fieldtype": "Currency",
+      "label": "Opening Principal (Company Currency)",
+      "options": "company_currency",
+      "read_only": 1
+    },
+    {
+      "fieldname": "base_monthly_payment",
+      "fieldtype": "Currency",
+      "label": "Monthly Payment (Company Currency)",
+      "options": "company_currency",
+      "read_only": 1
+    },
+    {
+      "fieldname": "base_remaining_balance",
+      "fieldtype": "Currency",
+      "label": "Actual Remaining Balance (Company Currency)",
+      "options": "company_currency",
+      "read_only": 1
+    },
+    {
+      "fieldname": "base_total_interest_remaining",
+      "fieldtype": "Currency",
+      "label": "Projected Interest Remaining (Company Currency)",
+      "options": "company_currency",
       "read_only": 1
     },
     {

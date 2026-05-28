@@ -136,6 +136,32 @@ class TestCurrencyMetadata(unittest.TestCase):
         ):
             self.assertEqual(fields[fieldname]["options"], "currency")
 
+    def test_debt_base_currency_fields_use_company_currency(self):
+        fields = doctype_fields(REPO_ROOT / "debtops/debtops/doctype/debt/debt.json")
+        self.assertEqual(fields["company_currency"]["options"], "Currency")
+        for fieldname in (
+            "base_opening_principal",
+            "base_monthly_payment",
+            "base_remaining_balance",
+            "base_total_interest_remaining",
+        ):
+            self.assertEqual(fields[fieldname]["options"], "company_currency")
+
+    def test_debt_dashboard_totals_use_base_currency_fields(self):
+        cards = {
+            "total_debt_outstanding": "base_remaining_balance",
+            "monthly_debt_payments": "base_monthly_payment",
+            "projected_interest_remaining": "base_total_interest_remaining",
+        }
+        for card, fieldname in cards.items():
+            path = REPO_ROOT / f"debtops/debtops/number_card/{card}/{card}.json"
+            number_card = json.loads(path.read_text(encoding="utf-8"))
+            self.assertEqual(number_card["aggregate_function_based_on"], fieldname)
+
+        chart_path = REPO_ROOT / "debtops/debtops/dashboard_chart/debt_originations/debt_originations.json"
+        chart = json.loads(chart_path.read_text(encoding="utf-8"))
+        self.assertEqual(chart["value_based_on"], "base_opening_principal")
+
     def test_schedule_currency_fields_use_row_currency(self):
         fields = doctype_fields(
             REPO_ROOT / "debtops/debtops/doctype/debt_repayment_schedule/debt_repayment_schedule.json"
